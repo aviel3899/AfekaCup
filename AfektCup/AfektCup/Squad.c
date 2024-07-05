@@ -52,12 +52,6 @@ Player* choosePlayerManually(Squad* squad, Player* player, PlayerManager* pManag
 		chosenPlayer = checkIfPlayerInThePlayersList(pManager, player, "This player's salary exceeds the team's budget, enter again\n");
 	while(chosenPlayer->isChosen == 1)
 		chosenPlayer = checkIfPlayerInThePlayersList(pManager, player, "This player was already chosen for other team, enter again\n");
-	/*while (1)
-	{
-		if (!L_find(squad->playersList.head.next, chosenPlayer, checkUniqePosition))
-			break;
-		chosenPlayer = checkIdAndIfPlayerInTheTeam(squad, player, temp, "A player with this position already exsists in the team, enter again\n");
-	}*/
 	playerIndex = findPlayer(pManager, chosenPlayer);
 	strcpy(pManager->allPlayers[playerIndex]->playerTeam, teamCode);
 	strcpy(chosenPlayer->playerTeam, teamCode);
@@ -76,7 +70,6 @@ Player* choosePlayerRandomly(Squad* squad, Player* player, PlayerManager* pManag
 		randomIndex = rand() % pManager->numOfPlayers;
 		if (pManager->allPlayers[randomIndex]->PlayerSalary <= freeBudget)
 			if (pManager->allPlayers[randomIndex]->isChosen != 1)
-				/*if (!L_find(squad->playersList.head.next, &pManager->allPlayers[randomIndex], checkUniqePosition))*/
 				{
 					strcpy(pManager->allPlayers[randomIndex]->playerTeam, teamCode);
 					break;
@@ -156,25 +149,6 @@ Player* deletePlayerFromSquad(Squad* squad, char* msg, Player* player)
 	squad->numOfPlayers--;
 	return player;
 }
-
-//int copySquadToArray(Squad* squad, int advantage)
-//{
-//	Player* updatedSquad = (Player*)malloc(squad->numOfPlayers * sizeof(Player));
-//	if (!updatedSquad)
-//		return 0;
-//	NODE* ptr = squad->playersList.head.next;
-//	for (int i = 0; i < squad->numOfPlayers && ptr; i++, ptr = ptr->next)
-//	{
-//		Player player = *(Player*)ptr->key;
-//		updatedSquad[i] = player;
-//	}
-//	for (int i = 0; i < squad->numOfPlayers; i++)
-//	{
-//
-//	}
-//	freeSquad(squad);
-//	return 1;
-//}
 
 int freeSquad(Squad* s)
 {

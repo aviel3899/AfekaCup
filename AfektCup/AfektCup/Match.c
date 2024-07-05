@@ -61,6 +61,7 @@ void SetStatsRandomTeam(Team* TheTeam, Match* Event, int homeOrAway, PlayerManag
 	else
 		Event->AwayTeamPoints = TheTeam->teamStats.points;
 }
+
 void SetMatchArena(Match* Event) {
 	Event->MatchArena = &(Event->HomeTeam->homeArena);
 }
@@ -69,4 +70,11 @@ void printMatch(Match* Event)
 {
 	printTeamForLeagueTable(Event->HomeTeam);
 	printTeamForLeagueTable(Event->AwayTeam);
+}
+
+void freeMatch(Match* event)
+{
+	freeTeam(event->HomeTeam);
+	freeTeam(event->AwayTeam);
+	// freeArena not needed because the match arena is the homeTeam arena and when we free the homeTeam we free the match arena
 }

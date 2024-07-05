@@ -299,7 +299,7 @@ Player* chooseWhichPlayerToTradeFromDestTeam(LeagueTable* lt, Player* firstPlaye
 			msg = NULL;
 		secondPlayerToTrade = whichPlayerToDelete(&lt->leagueTeams[destTeamIndex]->players, msg);
 		flag = 0;
-		if (firstPlayerToTrade->PlayerSalary <= lt->leagueTeams[destTeamIndex]->freeBudget - secondPlayerToTrade->PlayerSalary)
+		if (firstPlayerToTrade->PlayerSalary <= lt->leagueTeams[destTeamIndex]->freeBudget + secondPlayerToTrade->PlayerSalary)
 		{
 			if (secondPlayerToTrade->PlayerSalary <= lt->leagueTeams[OriginTeamIndex]->freeBudget - firstPlayerToTrade->PlayerSalary)
 				break;
@@ -372,14 +372,30 @@ int LeagueRound(LeagueTable* lt, PlayerManager* pManager)
 	for (int i = 0; i < lt->numOfLeagueTeams / 2; i++)
 	{
 		if (!initMatch(&roundMatches[i]))
+		{
+			free(roundMatches);
 			return 0;
+		}
 		homeIndex = checkIfTeamWasChosenForMatch(lt);
 		awayIndex = checkIfTeamWasChosenForMatch(lt);
 		setHomeAndAwayTeams(lt->leagueTeams[homeIndex], lt->leagueTeams[awayIndex], &roundMatches[i], pManager);
 	}
 
 	updateStandings(lt);
+
+	for (int i = 0; i < lt->numOfLeagueTeams / 2; i++)
+	{
+		freeMatch(&roundMatches[i]);
+	}
+
+	free(roundMatches);
+
 	return 1;
+}
+
+void freeLeagueRound(LeagueTable* lt)
+{
+
 }
 
 int checkIfTeamWasChosenForMatch(LeagueTable* lt)
@@ -504,8 +520,10 @@ void LeagueFunc(PlayerManager* pManager, TeamManager* tManager, LeagueTable* LMa
 			break;
 
 		case eLeagueRound:
-			if(!LeagueRound(LManager, pManager))
+			if (!LeagueRound(LManager, pManager))
 				printf("Error setting league round\n");
+			else
+				printf("\nLeague Round was successfully set, not you can see the changes in the league!");
 			break;
 
 		case EXIT:

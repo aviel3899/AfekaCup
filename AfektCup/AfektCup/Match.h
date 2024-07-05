@@ -15,3 +15,4 @@ void setHomeAndAwayTeams(Team* T1, Team* T2, Match* Event, PlayerManager* pManag
 void SetStatsRandomTeam(Team* HomeTeam, Match* Event, int homeOrAway, PlayerManager* pManager);
 void SetMatchArena(Match* Event);
 void printMatch(Match* Event);
+void freeMatch(Match* event);
